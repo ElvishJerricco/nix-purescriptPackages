@@ -12,6 +12,8 @@ stdenv.mkDerivation {
   inherit src purescriptDepends systemDepends;
   buildInputs = [purescript] ++ purescriptDepends ++ systemDepends;
 
+  phases = [ "buildPhase" "installPhase" ];
+
   buildPhase = ''
     mkdir ./output
     SOURCES=$(find $src/src -name "*.purs" -print)
