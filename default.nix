@@ -1,48 +1,39 @@
 { pkgs ? import <nixpkgs> {} }:
 
-let newpkgs = pkgs.overridePackages (import ./purescript.nix);
-    mkDerivation = import ./builder.nix { inherit (newpkgs) purescript stdenv; };
-
-    prelude = mkDerivation {
-      pname = "prelude";
-      version = "2.1.0";
-      src = newpkgs.fetchFromGitHub {
-        owner = "purescript";
-        repo = "purescript-prelude";
-        rev = "v2.1.0";
-        sha256 = null;
+let
+  newpkgs = pkgs.overridePackages (self: super:
+    let
+      overrideCabal = pkg: f: super.haskell.lib.overrideCabal pkg f;
+    in {
+      all-cabal-hashes = self.fetchFromGitHub {
+        owner = "commercialhaskell";
+        repo = "all-cabal-hashes";
+        rev = "55d438ced528d16016d0434bb41905c071a5580f";
+        sha256 = "0l2ap4mz64zr44ck16np773hdpqj389x9im7k1b8wzwj2l6k2234";
       };
-    };
-    eff = mkDerivation {
-      pname = "eff";
-      version = "2.0.0";
-      purescriptDepends = [ prelude ];
-      src = newpkgs.fetchFromGitHub {
-        owner = "purescript";
-        repo = "purescript-eff";
-        rev = "v2.0.0";
-        sha256 = null;
+      haskellPackages = super.haskellPackages.override {
+        overrides = hpself: hpsuper: {
+          language-javascript = hpself.callHackage "language-javascript" "0.6.0.9" {};
+          purescript = overrideCabal (hpself.callHackage "purescript" "0.10.3" {}) ({ ... }: {
+            doCheck = false;
+          });
+        };
       };
-    };
-    console = mkDerivation {
-      pname = "console";
-      version = "2.0.0";
-      purescriptDepends = [ prelude eff ];
-      src = newpkgs.fetchFromGitHub {
-        owner = "purescript";
-        repo = "purescript-console";
-	rev = "v2.0.0";
-	sha256 = null;
-      };
-    };
-in mkDerivation {
-  pname = "mine";
-  version = "0.1.0";
-  src = builtins.filterSource (path: type:
-    type != "unknown"
-    && baseNameOf path != ".git"
-    && baseNameOf path != "result"
-    && baseNameOf path != "output"
-  ) ./.;
-  purescriptDepends = [ prelude eff console ];
-}
+    });
+in (import ./purescript-modules/default.nix {
+  pkgs = newpkgs;
+  purescript = newpkgs.haskellPackages.purescript;
+  stdenv = newpkgs.stdenv;
+}).callPackage ({ mkDerivation, prelude, eff, console }:
+  mkDerivation {
+    pname = "mine";
+    version = "0.1.0";
+    src = builtins.filterSource (path: type:
+      type != "unknown"
+      && baseNameOf path != ".git"
+      && baseNameOf path != "result"
+      && baseNameOf path != "output"
+    ) ./.;
+    purescriptDepends = [ prelude eff console ];
+  }
+) {}
