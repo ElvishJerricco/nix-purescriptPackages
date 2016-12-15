@@ -9,7 +9,7 @@ let newpkgs = pkgs.overridePackages (import ./purescript.nix);
       src = newpkgs.fetchFromGitHub {
         owner = "purescript";
         repo = "purescript-prelude";
-        rev = "a1e2e76dddba0227d6b1a55ff6b2dbfb4d16a6d9";
+        rev = "v2.1.0";
         sha256 = null;
       };
     };
@@ -20,7 +20,7 @@ let newpkgs = pkgs.overridePackages (import ./purescript.nix);
       src = newpkgs.fetchFromGitHub {
         owner = "purescript";
         repo = "purescript-eff";
-        rev = "2abcc55adbf94bacd9060e7b8daf8361a3a63780";
+        rev = "v2.0.0";
         sha256 = null;
       };
     };
@@ -31,7 +31,7 @@ let newpkgs = pkgs.overridePackages (import ./purescript.nix);
       src = newpkgs.fetchFromGitHub {
         owner = "purescript";
         repo = "purescript-console";
-	rev = "3d3846c1a625b1996b4bc9e1d7a2fbff407fda25";
+	rev = "v2.0.0";
 	sha256 = null;
       };
     };
