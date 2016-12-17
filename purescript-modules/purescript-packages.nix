@@ -1,4 +1,4 @@
-{ pkgs, stdenv, callPackage }:
+{ pkgs, callPackage }:
 
 self: {
   prelude = callPackage

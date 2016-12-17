@@ -14,7 +14,7 @@ let
       mkScope = scope: pkgs // pkgs.xorg // pkgs.gnome2 // scope;
       defaultScope = mkScope self;
       callPackage = drv: args: callPackageWithScope defaultScope drv args;
-    in import ./purescript-packages.nix { inherit pkgs stdenv callPackage; } self // {
+    in import ./purescript-packages.nix { inherit pkgs callPackage; } self // {
       inherit mkDerivation callPackage;
     };
 in fix' purescriptPackages
