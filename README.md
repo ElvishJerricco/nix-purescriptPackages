@@ -16,18 +16,6 @@ Advantages of Nix
 TODO:
 ---
 
-- **Automate generation of a package set.**
-
-  PureScript already has
-  [package-sets](https://github.com/purescript/package-sets/) to base
-  this on. A `purescript-packages.nix` file can be generated from
-  that, which would be used to get dependencies.
-
-- **Introduce something similar to `haskellPackages.callPackage`.**
-
-  With a generated package set, a `callPackage` idiom would let us
-  simplify the nix expressions a package is built with.
-
 - **Improve the crap used to get shared builds.**
 
   Currently, this symlinks the output files of all dependencies to trick
