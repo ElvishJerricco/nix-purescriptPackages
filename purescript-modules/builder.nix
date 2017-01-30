@@ -16,15 +16,15 @@ stdenv.mkDerivation {
 
   buildPhase = ''
     mkdir ./output
-    SOURCES=$(find $src/src -name "*.purs" -print)
+    SOURCES=("$src/src/**/*.purs")
     for pd in $purescriptDepends; do
       for o in $pd/output/*; do
         rm -f ./output/$(basename $o)
         ln -s $o ./output/$(basename $o)
       done
-      SOURCES="$SOURCES $(find $pd/src -name "*.purs" -print)"
+      SOURCES+=("$pd/src/**/*.purs")
     done
-    psc -o ./output $SOURCES
+    psc -o ./output "''${SOURCES[@]}"
   '';
 
   installPhase = ''
