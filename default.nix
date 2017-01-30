@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  newpkgs = pkgs.overridePackages (self: super:
+  newpkgs = import pkgs.path { overlays = [(self: super:
     let
       overrideCabal = pkg: f: super.haskell.lib.overrideCabal pkg f;
     in {
@@ -19,7 +19,7 @@ let
           });
         };
       };
-    });
+    })]; };
 in (import ./purescript-modules/default.nix {
   pkgs = newpkgs;
   purescript = newpkgs.haskellPackages.purescript;
