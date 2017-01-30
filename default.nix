@@ -1,8 +1,8 @@
-{ pkgs ? import ./nixpkgs }:
+{ pkgs ? import ./nixpkgs {} }:
 
 (import ./purescript-modules {
   pkgs = pkgs;
-  purescript = pkgs.haskellPackages.purescript;
+  purescript = pkgs.haskellPackages.purescript_0_10_5;
   stdenv = pkgs.stdenv;
 }).callPackage ({ mkDerivation, prelude, eff, console }:
   mkDerivation {
