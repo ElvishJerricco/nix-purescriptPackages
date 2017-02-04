@@ -1,5 +1,5 @@
 { pkgs ? import ./nixpkgs {}
-, purescript ? pkgs.haskellPackages.purescript_10_0_5
+, purescript ? pkgs.haskellPackages.purescript_0_10_5
 }:
 
 let
