@@ -3,9 +3,9 @@ This is a skeleton for building PureScript projects with Nix.
 Advantages of Nix
 ---
 
-- With `psc-package`, you must use the package set that exists
-  online. With Nix, you can add packages from arbitrary sources and
-  override existing packages at will.
+- With `psc-package`, you must use [the default package set](https://github.com/purescript/package-sets/)
+  or create a custom set if you want to override package versions. With Nix, you can add packages from 
+  arbitrary sources and override existing packages at will.
 - Builds between different projects share common artifacts.
 - Any external, non-purescript build tools can be depended on
   reproducibly.
